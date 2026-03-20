@@ -427,14 +427,15 @@ def translate_timestep(year, month, day, hour, outdir, tmpdir=None):
             log.error(f"No records produced for {outname}")
             return None
 
-        # ── Step 5: Concatenate with 4-byte BE length prefix ────────
+        # ── Step 5: Concatenate with Fortran unformatted I/O framing ─
+        # Each record: 4-byte BE length header + GRIB data + 4-byte BE length trailer
         with open(outpath, "wb") as outf:
             for rf in record_files:
                 with open(rf, "rb") as inf:
                     data = inf.read()
-                # Prepend 4-byte big-endian length
                 outf.write(struct.pack(">I", len(data)))
                 outf.write(data)
+                outf.write(struct.pack(">I", len(data)))
 
         log.info(f"Wrote {outname} with {len(record_files)} records")
         return outpath
