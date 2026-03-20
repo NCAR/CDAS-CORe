@@ -8,6 +8,8 @@ dependencies:
   - cdo
   - wgrib2
   - pip
+  - cartopy
+  - seaborn
   - pip:
     - eccodes
     - scipy
