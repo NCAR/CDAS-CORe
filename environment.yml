@@ -11,3 +11,6 @@ dependencies:
   - pip:
     - eccodes
     - scipy
+    - xarray
+    - cfgrib
+    - netcdf4
