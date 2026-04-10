@@ -260,6 +260,10 @@ def translate_timestep(year, month, day, hour, outdir, tmpdir=None):
     outname = f"grb2d{yy:02d}{month:02d}{day:02d}{hour:02d}"
     outpath = os.path.join(outdir, outname)
 
+    if os.path.exists(outpath) and os.path.getsize(outpath) > 0:
+        log.info(f"Skipping {outname} (already exists)")
+        return outpath
+
     cleanup = tmpdir is None
     if tmpdir is None:
         tmpdir = tempfile.mkdtemp(prefix="grb2d_")
